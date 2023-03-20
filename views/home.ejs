@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二次压降-输入监测</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #4682b4;
+      color: white;
+    }
+
+
+    .content {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      width: 800px;
+      margin: 20px auto;
+    }
+
+    nav {
+      width: 100vw;
+      height: 60px;
+      background-color: #0371c3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav .container {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav img {
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .main-nav ul {
+      list-style-type: none;
+      display: flex;
+    }
+
+    .main-nav ul li {
+      margin-left: 30px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: white;
+      transition: color 0.5s;
+    }
+
+    .main-nav ul li a:hover {
+      color: #c9cccb;
+    }
+
+    .choose {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      margin-top: 20px;
+    }
+
+    #choose {
+      outline-style: none;
+      border: 0;
+      border-radius: 3px;
+      width: 200px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .inputForm {
+      display: inline-block;
+      text-align: left;
+      background-color: rgba(0, 0, 0, 0.4);
+      margin-top: 15px;
+      margin-right: 10px;
+      padding: 20px 50px;
+      border-radius: 10px;
+      padding-bottom: 30px;
+    }
+
+    .inputForm input {
+      margin-top: 5px;
+      display: block;
+      width: 100%;
+      padding: 2px 5px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .scrollBox {
+      height: 250px;
+      overflow-y: scroll;
+    }
+
+    select {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      display: block;
+      width: 100%;
+      padding: 2px 5px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    select:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+    }
+
+    .inputForm input:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+    }
+
+    .testBox {
+      width: 150px;
+      height: 70px;
+    }
+
+    #test {
+      padding: 6px 25px;
+      margin-top: 20px;
+      transition: all 0.2s ease;
+    }
+
+    #test:active {
+      padding: 2px 10px;
+    }
+
+    .device {
+      margin: 0 auto;
+      width: 500px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    table {
+      margin: 20px auto;
+      margin-right: 5px;
+      border: 1px solid #5cb6ff;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 6px;
+      font-weight: 400;
+    }
+
+    button {
+      background-color: #5cb6ff;
+      color: aliceblue;
+      cursor: pointer;
+      border-radius: 20px;
+      padding: 3px 15px;
+      border: 1px solid #4682b4;
+      transition: all 0.2s ease;
+    }
+
+    button:active {
+      padding: 2px 13px;
+    }
+
+    .scrollBox::-webkit-scrollbar {
+      margin-left: 5px;
+      width: 3px;
+      height: 10px;
+      /**/
+    }
+
+    .scrollBox::-webkit-scrollbar-track {
+      background: rgb(239, 239, 239);
+      border-radius: 2px;
+    }
+
+    .scrollBox::-webkit-scrollbar-thumb {
+      background: #bfbfbf;
+      border-radius: 10px;
+    }
+
+    .scrollBox::-webkit-scrollbar-thumb:hover {
+      background: #333;
+    }
+
+    .scrollBox::-webkit-scrollbar-corner {
+      background: #179a16;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="main-nav">
+    <div class="container">
+      <div class="left">
+        <img src="/png/xiaohuiguifan.png" alt="">
+        <span>欢迎使用二次压降检测系统</span>
+      </div>
+      <ul>
+        <li><a href="home">输入检测</a></li>
+        <li><a href="search">仪器查询</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content">
+
+    <div class="device">
+      <h4>设备信息</h4>
+      <label for="">设备编号: </label>
+      <input type="text" id="ProductId">
+      <button id="getProduct">获取设备</button><br>
+      <div class="scrollBox">
+        <table border="1">
+          <tr>
+            <th>产品编号</th>
+            <th>产品名称</th>
+            <th>制造商</th>
+            <th>生产日期</th>
+          </tr>
+          <% for( let index=0; index < data.length; index++ ) { %>
+            <tr>
+              <td>
+                <%= data[index].id %>
+              </td>
+              <td>
+                <%= data[index].name %>
+              </td>
+              <td>
+                <%= data[index].factory %>
+              </td>
+              <td>
+                <%= data[index].prodoct_time %>
+              </td>
+            </tr>
+            <% } %>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="choose">
+      <div id="choose">请输入项目的检测信息</div>
+    </div>
+
+    <div class="inputForms">
+      <div class="inputForm">
+        <label for="lang">获取项目</label>
+        <select name="project" id="lang">
+          <option class=".option" value="0">请选择一个项目</option>
+          <option class=".option" value="1">PT1</option>
+          <option class=".option" value="2">PT2</option>
+          <option class=".option" value="3">CT1</option>
+          <option class=".option" value="4">CT2</option>
+        </select>
+        <label for="dw">档位</label>
+        <input type="text" id="dw" required value=<%=outputTable.level %>>
+        <label for="bfb">百分比</label>
+        <input type="text" id="bfb" required value=<%=outputTable.percent %>><br><label for="szxx">数据下限</label>
+        <input type="text" id="szxx" required value=<%=outputTable.min %>><label for="sjsx">数据上限</label>
+        <input type="text" id="sjsx" required value=<%=outputTable.max %>>
+      </div>
+    </div>
+    <div class="testBox">
+      <button id="test">开始检测</button>
+    </div>
+
+  </div>
+
+
+  <script>
+    const ProductInputEl = document.querySelector('#ProductId')
+    if ("<%=outputTable.id%>")
+      document.querySelectorAll('option')["<%=outputTable.id%>"].setAttribute('selected', true)
+    //查询
+    const getProductbtnEl = document.querySelector('#getProduct')
+    getProductbtnEl.addEventListener('click', () => {
+      fetch('/home/ProductSelect', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ProductId: ProductInputEl.value
+        })
+      }).then(() => {
+        window.location.reload()
+      })
+    })
+    //选择
+    const selectEl = document.querySelector('#lang')
+    selectEl.addEventListener('change', function () {
+      console.log("change时间");
+      fetch('/home/InfoTable', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.value
+        })
+      }).then(() => {
+        window.location.reload()
+      })
+    })
+
+    //测试
+    const testBtnEl = document.querySelector('#test')
+    testBtnEl.addEventListener('click', () => {
+      if (selectEl.value == 0 || "<%= data.length%>" != 1) {
+        alert("请选择项目")
+        return;
+      }
+      fetch('/output/result', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId: "<%= data[0].id%>",
+          projectId: selectEl.value
+        })
+      }).then(() => {
+        window.location.replace('/output')
+      })
+    })
+  </script>
+</body>
+
+</html>

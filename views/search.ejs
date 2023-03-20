@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二次压降-仪器查询</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #4682b4;
+      color: white;
+    }
+
+    nav {
+      width: 100vw;
+      height: 60px;
+      background-color: #0371c3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav .container {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav img {
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .main-nav ul {
+      list-style-type: none;
+      display: flex;
+    }
+
+    .main-nav ul li {
+      margin-left: 30px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: white;
+      transition: color 0.5s;
+    }
+
+    .main-nav ul li a:hover {
+      color: #c9cccb;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      width: 800px;
+      margin: 20px auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .device {
+      margin: 0 auto;
+      width: 500px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .yq {
+      margin: 20px auto;
+      display: inline-block;
+    }
+
+    table {
+      border: 1px solid #5cb6ff;
+      border-collapse: collapse;
+      border-radius: 15px;
+    }
+
+    th,
+    td {
+      padding: 6px;
+      font-weight: 400;
+    }
+
+    .info {
+      display: flex;
+      width: 800px;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .jc {
+      width: 380px;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="main-nav">
+    <div class="container">
+      <div class="left">
+        <img src="/png/xiaohuiguifan.png" alt="">
+        <span>欢迎使用二次压降检测系统</span>
+      </div>
+      <ul>
+        <li><a href="home">输入检测</a></li>
+        <li><a href="search">仪器查询</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h2>查询仪器历史信息</h2>
+    <div class="device">
+      <h4>设备信息</h4>
+      <label for="">设备编号: </label>
+      <input type="number" id="productId">
+      <button id="getProduct" onclick="getProduct()">获取设备</button><br>
+      <div class="yq">
+        <table border="1">
+          <tr>
+            <th>产品名称</th>
+            <th>制造商</th>
+            <th>生产日期</th>
+            <th>送检日期</th>
+          </tr>
+          <% if (SelectData.length===1) { %>
+            <tr>
+              <td>
+                <%=SelectData[0].name %>
+              </td>
+              <td>
+                <%=SelectData[0].factory %>
+              </td>
+              <td>
+                <%=SelectData[0].prodoct_time %>
+              </td>
+              <td>
+                <%=SelectData[0].sjrq %>
+              </td>
+            </tr>
+            <% } %>
+        </table>
+      </div>
+
+
+    </div>
+    <div class="info">
+      <% for( let index=0; index < items.length; index++ ) { %>
+        <div class="jc">
+          <table border="1">
+            <tbody>
+              <tr>
+                <td>二次电压</td>
+                <td>
+                  <%= items[index].UU2n %>
+                </td>
+                <td>tanα</td>
+                <td>
+                  <%= items[index].tan %>
+                </td>
+              </tr>
+              <tr>
+                <td>计量点编号</td>
+                <td>
+                  <%= items[index].pointNumber %>
+                </td>
+                <td>温度</td>
+                <td>
+                  <%= items[index].temperature %>
+                </td>
+              </tr>
+              <tr>
+                <td>测试日期</td>
+                <td>
+                  <%= items[index].date %>
+                </td>
+                <td>湿度</td>
+                <td>
+                  <%= items[index].humidity %>
+                </td>
+              </tr>
+            </tbody>
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col>
+            </colgroup>
+          </table>
+
+
+          <table border="1">
+            <tr>
+              <td>测量结果 <%= items[index].val1 %>
+                  <%= items[index].val2 %>
+                    <%= items[index].val3 %>
+                      <%= items[index].val4 %>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <% } %>
+    </div>
+  </div>
+  <script>
+    function getProduct() {
+      const productId = document.querySelector('#productId').value
+      fetch('/search/ProductSelect', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ProductId: productId
+        })
+      }).then(() => {
+        if (!productId) {
+          alert("输入仪器编号")
+          window.location.reload()
+          return;
+        }
+        fetch('/search/history', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            productId: productId
+          })
+        }).then(() => {
+          window.location.reload()
+        })
+      })
+    }
+  </script>
+</body>
+
+</html>

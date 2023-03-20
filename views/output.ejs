@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>二次压降-输出展示</title>
+  <style>
+    #outPic {
+      width: 800px;
+      height: 400px;
+      margin-bottom: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #4682b4;
+      color: white;
+    }
+
+    nav {
+      width: 100vw;
+      height: 60px;
+      background-color: #0371c3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav .container {
+      width: 100%;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    nav img {
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .main-nav ul {
+      list-style-type: none;
+      display: flex;
+    }
+
+    .main-nav ul li {
+      margin-left: 30px;
+    }
+
+    .main-nav ul li a {
+      text-decoration: none;
+      color: white;
+      transition: color 0.5s;
+    }
+
+    .main-nav ul li a:hover {
+      color: #c9cccb;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      text-align: center;
+      width: 800px;
+      margin: 20px auto;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    table {
+      border: 1.5px solid #5cb6ff;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 6px;
+      font-weight: 400;
+    }
+
+    .function {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: #5cb6ff;
+      border-radius: 30px;
+      padding: 6px 20px;
+      border: 0;
+      transition: all 0.1s ease;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="main-nav">
+    <div class="container">
+      <div class="left">
+        <img src="/png/xiaohuiguifan.png" alt="">
+        <span>欢迎使用二次压降检测系统</span>
+      </div>
+      <ul>
+        <li><a href="home">输入检测</a></li>
+        <li><a href="search">仪器查询</a></li>
+        <li><a href="output">输出展示</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h2>仪器输出结果</h2>
+    <img src="http://xm-cug.xyz:8000/img" alt="" id="outPic">
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>
+            <%= detailResult[0] %>
+          </td>
+          <td>
+            <%= detailResult[1]+detailResult[2] %>
+          </td>
+          <td>
+            <%= detailResult[3] %>
+          </td>
+          <td>
+            <%= detailResult[4] %>
+          </td>
+        </tr>
+        <tr>
+          <!-- 计量点编号 -->
+          <td>
+            <%= detailResult[5] %>
+          </td>
+          <!-- 22222 -->
+          <td>
+            <%= detailResult[7] %>
+          </td>
+          <!-- 温度 -->
+          <td>
+            <%= detailResult[6] %>
+          </td>
+          <!-- 20 -->
+          <td>
+            <%= detailResult[8] %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= detailResult[9] %>
+          </td>
+          <td>
+            <%= detailResult[10] %>
+          </td>
+          <!-- 湿度 -->
+          <td>
+            <%= detailResult[11] %>
+          </td>
+          <td>
+            <%= detailResult[12] %>
+          </td>
+        </tr>
+      </tbody>
+      <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+      </colgroup>
+    </table>
+
+    <table border="1">
+      <tr>
+        <td></td>
+        <!-- α0 -->
+        <td>
+          <%= detailResult[13] %>
+        </td>
+        <td>
+          <%= detailResult[14] %>
+        </td>
+        <td>
+          <%= detailResult[15] %>
+        </td>
+        <!-- 16 PT测  21不带自校-->
+        <td rowspan="2">
+          <%= detailResult[16] %> <br>
+            <%= detailResult[21] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= detailResult[17] %>
+        </td>
+        <td>
+          <%= detailResult[18] %>
+        </td>
+        <td>
+          <%= detailResult[19] %>
+        </td>
+        <td>
+          <%= detailResult[20] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= detailResult[22] %>
+        </td>
+        <td>
+          <%= detailResult[23] %>
+        </td>
+        <td>
+          <%= detailResult[24] %>
+        </td>
+        <td>
+          <%= detailResult[25] %>
+        </td>
+        <td rowspan="3">
+          <%= detailResult[26] %> <br>
+            <%= detailResult[27] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= detailResult[28] %>
+        </td>
+        <td>
+          <%= detailResult[29] %>
+        </td>
+        <td>
+          <%= detailResult[30] %>
+        </td>
+        <td>
+          <%= detailResult[31] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= detailResult[32] %>
+        </td>
+        <td>
+          <%= detailResult[33] %>
+        </td>
+        <td>
+          <%= detailResult[34] %>
+        </td>
+        <td>
+          <%= detailResult[35] %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= detailResult[36] %>
+        </td>
+        <td>
+          <%= detailResult[37] %>
+        </td>
+        <td>20.235</td>
+        <td>20.275</td>
+        <td>r% 0.054</td>
+      </tr>
+    </table>
+
+    <table border="1">
+      <tr>
+        <td>测量结束 <%= simpleResult.value1 %>
+            <%= simpleResult.value2 %>
+              <%= simpleResult.value3 %>
+                <%= simpleResult.value4 %>
+        </td>
+      </tr>
+    </table>
+    <dic class="function">
+      <button onclick="openPrinting()">打印当前结果</button>
+      <button onclick="saveTable()">存储当前结果</button>
+    </dic>
+
+  </div>
+  <script>
+    function openPrinting() {
+      window.print()
+    }
+    function saveTable() {
+      fetch('/output/insert', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          productId: "<%= simpleResult.productId%>",
+          UU2n: "<%= detailResult[1]%>" + "<%= detailResult[2]%>",
+          tan: "<%= detailResult[4]%>",
+          pointNumber: "<%= detailResult[7]%>",
+          temperature: "<%= detailResult[8]%>",
+          date: "<%= detailResult[10]%>",
+          humidity: "<%= detailResult[12]%>",
+          val1: "<%= simpleResult.value1 %>",
+          val2: "<%= simpleResult.value2 %>",
+          val3: "<%= simpleResult.value3 %>",
+          val4: "<%= simpleResult.value4 %>"
+        })
+      }).then(() => {
+        alert("保存成功!")
+      })
+    }
+  </script>
+</body>
+
+</html>
